@@ -2,8 +2,52 @@
 <html>
 <head>
 <title>AI Student Performance Predictor</title>
-<link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body{
+font-family: Arial;
+background: linear-gradient(135deg,#667eea,#764ba2);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.container{
+background:white;
+padding:40px;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+text-align:center;
+}
+
+input{
+padding:10px;
+margin:10px;
+border-radius:5px;
+border:1px solid #ccc;
+}
+
+button{
+background:#667eea;
+color:white;
+border:none;
+padding:12px 25px;
+border-radius:8px;
+cursor:pointer;
+}
+
+button:hover{
+background:#5a67d8;
+}
+
+#result{
+margin-top:20px;
+font-size:20px;
+font-weight:bold;
+}
+</style>
+
 </head>
 
 <body>
@@ -12,23 +56,44 @@
 
 <h1>🎓 AI Student Performance Predictor</h1>
 
-<div class="form">
+<input id="hours" placeholder="Study Hours"><br>
+<input id="attendance" placeholder="Attendance %"><br>
+<input id="internal" placeholder="Internal Marks"><br>
 
-<input id="hours" placeholder="Study Hours">
-<input id="attendance" placeholder="Attendance %">
-<input id="internal" placeholder="Internal Marks">
-
-<button onclick="predict()">Predict Performance</button>
-
-</div>
+<button onclick="predict()">Predict</button>
 
 <div id="result"></div>
 
-<canvas id="chart"></canvas>
-
 </div>
 
-<script src="script.js"></script>
+<script>
+
+async function predict(){
+
+let hours=document.getElementById("hours").value
+let attendance=document.getElementById("attendance").value
+let internal=document.getElementById("internal").value
+
+let response=await fetch("/api/predict",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+hours:hours,
+attendance:attendance,
+internal:internal
+})
+})
+
+let data=await response.json()
+
+document.getElementById("result").innerHTML=
+"Predicted Score: "+data.prediction
+
+}
+
+</script>
 
 </body>
 </html>
