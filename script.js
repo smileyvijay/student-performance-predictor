@@ -1,17 +1,47 @@
-function predict(){
+async function predict(){
 
-let study = document.getElementById("study").value
-let attendance = document.getElementById("attendance").value
-let marks = document.getElementById("marks").value
+let hours=document.getElementById("hours").value
+let attendance=document.getElementById("attendance").value
+let internal=document.getElementById("internal").value
 
-let result=""
+let response = await fetch("/api/predict",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+hours:hours,
+attendance:attendance,
+internal:internal
+})
+})
 
-if(study>=2 && attendance>=70 && marks>=30){
-result="PASS"
+let data=await response.json()
+
+let grade=""
+
+if(data.prediction>=80) grade="A"
+else if(data.prediction>=60) grade="B"
+else if(data.prediction>=40) grade="C"
+else grade="Fail"
+
+document.getElementById("result").innerHTML=
+`Predicted Marks: ${data.prediction}<br>
+Grade: ${grade}`
+
+createChart(hours,attendance,internal,data.prediction)
+
 }
-else{
-result="FAIL"
-}
 
-document.getElementById("result").innerHTML="Prediction: "+result
+function createChart(h,a,i,p){
+
+new Chart(document.getElementById("chart"),{
+type:"bar",
+data:{
+labels:["Study Hours","Attendance","Internal","Prediction"],
+datasets:[{
+label:"Performance Analysis",
+data:[h,a,i,p]
+}]
+}
+})
+
 }
