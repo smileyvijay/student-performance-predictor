@@ -1,27 +1,44 @@
 body{
 font-family: Arial;
-text-align:center;
-background:#f2f2f2;
+background: linear-gradient(135deg,#4facfe,#00f2fe);
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
 }
 
-.box{
+.container{
 background:white;
-width:300px;
-margin:auto;
-padding:20px;
-border-radius:10px;
-box-shadow:0px 0px 10px gray;
+padding:40px;
+border-radius:15px;
+box-shadow:0 15px 30px rgba(0,0,0,0.2);
+width:400px;
+text-align:center;
 }
 
 input{
 width:90%;
-padding:8px;
+padding:10px;
 margin:10px;
+border-radius:6px;
+border:1px solid #ccc;
 }
 
 button{
-padding:10px;
-background:blue;
-color:white;
+padding:12px 25px;
+background:#4facfe;
 border:none;
+color:white;
+border-radius:8px;
+cursor:pointer;
+}
+
+button:hover{
+background:#00c6ff;
+}
+
+#result{
+margin-top:20px;
+font-size:20px;
+font-weight:bold;
 }
